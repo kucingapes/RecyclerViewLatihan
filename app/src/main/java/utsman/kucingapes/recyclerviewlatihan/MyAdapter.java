@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,7 +49,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
                 Intent intent = new Intent(context, Detail.class);
                 intent.putExtra("title", model.getTitle());
                 intent.putExtra("id", i);
-                context.startActivity(intent);
+                //context.startActivity(intent);
+                ((AppCompatActivity) context).startActivityForResult(intent, 1);
             }
         });
 

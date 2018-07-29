@@ -2,6 +2,7 @@ package utsman.kucingapes.recyclerviewlatihan;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
@@ -72,67 +73,46 @@ public class Detail extends AppCompatActivity {
             button.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    /*SharedPreferences.Editor editor = settings.edit();
-                    String jsonFavoritesQ = jsonFavorites;
-
-                    jsonFavoritesQ = jsonFavoritesQ.replace(String.valueOf(id), "")
-                            .replace(title,"")
-                            .replace("favorite", "");
-
-                    editor.putString(FAVORITES, jsonFavoritesQ);
-                    editor.apply();*/
-
-
-                    String json = "{ favorite : favorite , id :2, title : title 3 },";
-                    //String eks = "{favorite:y,id:"+id+",title:"+title+"}" ;
-                    //String eks = "{"+"favorite"+:
-                    //String eks = "{ "favorite ": "y ", "id ":0, "title ": "title 5 "}";
-                    //String eks = "{ \"favorite \": \"y \", \"id \":0, \"title \": \"title 5 \"}";
                     String eks = "{\"favorite\":\"y\",\"id\":0,\"title\":\""+title+"\"}";
                     String ekskoma = "{\"favorite\":\"y\",\"id\":0,\"title\":\""+title+"\"},";
 
-
-                    if (jsonFavorites.contains(eks)){
-                        Toast.makeText(getApplicationContext(), "ada", Toast.LENGTH_SHORT).show();
-
-                        SharedPreferences.Editor editor = settings.edit();
-                        String jsonFavoritesQ = jsonFavorites;
-
-                        jsonFavoritesQ = jsonFavoritesQ.replace(eks,"");
-
-                        /*if (jsonFavoritesQ.contains(ekskoma)) {
-                            jsonFavoritesQ = jsonFavoritesQ.replace(eks, "");
-                            editor.putString(FAVORITES, jsonFavoritesQ);
-                            editor.apply();
-                        } else if (jsonFavoritesQ.contains(eks)){
-                            editor.putString(FAVORITES, jsonFavoritesQ);
-                            editor.apply();
-                        }*/
-
-                        editor.putString(FAVORITES, jsonFavoritesQ);
-                        editor.apply();
+                    String brokenjson = ",]";
+                    String fixjson = "]";
 
 
-
-                    } if (jsonFavorites.contains(ekskoma)) {
-                        Toast.makeText(getApplicationContext(), "ada", Toast.LENGTH_SHORT).show();
-
+                    if (jsonFavorites.contains(ekskoma)) {
+                        button.setText("tambah");
                         SharedPreferences.Editor editor = settings.edit();
                         String jsonFavoritesQ = jsonFavorites;
 
                         jsonFavoritesQ = jsonFavoritesQ.replace(ekskoma,"");
 
+                        if (jsonFavoritesQ.contains(brokenjson)) {
+                            jsonFavoritesQ = jsonFavoritesQ.replace(ekskoma,"").replace(brokenjson,
+                                    fixjson);
+                        } else {
+                            jsonFavoritesQ = jsonFavoritesQ.replace(ekskoma,"");
+                        }
+
                         editor.putString(FAVORITES, jsonFavoritesQ);
                         editor.apply();
+
+
+                    } if (jsonFavorites.contains(eks)){
+                        button.setText("tambah");
+                        SharedPreferences.Editor editor = settings.edit();
+                        String jsonFavoritesQ = jsonFavorites;
+
+                        if (jsonFavoritesQ.contains(brokenjson)) {
+                            jsonFavoritesQ = jsonFavoritesQ.replace(eks,"").replace(brokenjson,
+                                    fixjson);
+                        } else {
+                            jsonFavoritesQ = jsonFavoritesQ.replace(eks,"");
+                        }
+                        editor.putString(FAVORITES, jsonFavoritesQ);
+                        editor.apply();
+
                     }
-
-
-
-                    //Toast.makeText(getApplicationContext(), jsonFavoritesQ, Toast.LENGTH_SHORT).show();
-
-
-
-                    //Toast.makeText(getApplicationContext(), qq, Toast.LENGTH_SHORT).show();
 
                 }
             });
@@ -148,5 +128,13 @@ public class Detail extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        Intent returnIntent = new Intent();
+        setResult(RESULT_OK, returnIntent);
+        finish();
     }
 }
